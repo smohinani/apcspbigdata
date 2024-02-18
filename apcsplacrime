@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Read crime data and arrest data
-crimedata = pd.read_csv(r"C:/Users/samue/Downloads/Crime_Data_from_2020_to_Present.csv")
-arrestdata = pd.read_csv(r"C:/Users/samue/Downloads/Arrest_Data_from_2020_to_Present.csv")
+crimedata = pd.read_csv(r"C:/Users/samue/Downloads/Crime_Data_from_2020_to_Present.csv") #replace with data location
+arrestdata = pd.read_csv(r"C:/Users/samue/Downloads/Arrest_Data_from_2020_to_Present.csv") #replace with data location
 
 # Crime data
 crimedata['Date Rptd'] = pd.to_datetime(crimedata['Date Rptd'])
