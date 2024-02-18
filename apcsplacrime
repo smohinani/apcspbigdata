@@ -1,9 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read crime data and arrest data
-crimedata = pd.read_csv(r"C:/Users/samue/Downloads/Crime_Data_from_2020_to_Present.csv") #replace with data location
-arrestdata = pd.read_csv(r"C:/Users/samue/Downloads/Arrest_Data_from_2020_to_Present.csv") #replace with data location
+crimedata = pd.read_csv(r"C:/Users/samue/Downloads/Crime_Data_from_2020_to_Present.csv")
+arrestdata = pd.read_csv(r"C:/Users/samue/Downloads/Arrest_Data_from_2020_to_Present.csv")
 
 # Crime data
 crimedata['Date Rptd'] = pd.to_datetime(crimedata['Date Rptd'])
@@ -28,12 +29,22 @@ ax1.set_ylabel('Number of Crimes')
 ax1.set_title('Crimes Over the Years')
 ax1.grid(True)
 
+# Add line of best fit for crimes
+z_crimes = np.polyfit(range(len(crime_dates_by_month)), crime_dates_by_month, 1)
+p_crimes = np.poly1d(z_crimes)
+ax1.plot(crime_dates_by_month.index.to_timestamp(), p_crimes(range(len(crime_dates_by_month))), '--', color='blue')
+
 # Plotting the line chart for arrests
 ax2.plot(arrest_dates_by_month.index.to_timestamp(), arrest_dates_by_month, marker='o')
 ax2.set_xlabel('Year')
 ax2.set_ylabel('Number of Arrests')
 ax2.set_title('Arrests Over the Years')
 ax2.grid(True)
+
+# Add line of best fit for arrests
+z_arrests = np.polyfit(range(len(arrest_dates_by_month)), arrest_dates_by_month, 1)
+p_arrests = np.poly1d(z_arrests)
+ax2.plot(arrest_dates_by_month.index.to_timestamp(), p_arrests(range(len(arrest_dates_by_month))), '--', color='blue')
 
 # Adjust layout to prevent overlap
 plt.tight_layout()
