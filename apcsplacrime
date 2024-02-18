@@ -1,0 +1,42 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read crime data and arrest data
+crimedata = pd.read_csv(r"C:/Users/samue/Downloads/Crime_Data_from_2020_to_Present.csv")
+arrestdata = pd.read_csv(r"C:/Users/samue/Downloads/Arrest_Data_from_2020_to_Present.csv")
+
+# Crime data
+crimedata['Date Rptd'] = pd.to_datetime(crimedata['Date Rptd'])
+crime_dates = crimedata['Date Rptd']
+
+# Creating a line chart for crimes by month
+crime_dates_by_month = crime_dates.groupby(crime_dates.dt.to_period("M")).count()
+
+# Arrest data
+arrestdata['Arrest Date'] = pd.to_datetime(arrestdata['Arrest Date'])
+arrest_dates = arrestdata['Arrest Date']
+
+arrest_dates_by_month = arrest_dates.groupby(arrest_dates.dt.to_period("M")).count()
+
+# Create subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))  # Adjusted figsize for better visibility
+
+# Plotting the line chart for crimes
+ax1.plot(crime_dates_by_month.index.to_timestamp(), crime_dates_by_month, marker='o', color='red')
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Number of Crimes')
+ax1.set_title('Crimes Over the Years')
+ax1.grid(True)
+
+# Plotting the line chart for arrests
+ax2.plot(arrest_dates_by_month.index.to_timestamp(), arrest_dates_by_month, marker='o')
+ax2.set_xlabel('Year')
+ax2.set_ylabel('Number of Arrests')
+ax2.set_title('Arrests Over the Years')
+ax2.grid(True)
+
+# Adjust layout to prevent overlap
+plt.tight_layout()
+
+# Show the plots
+plt.show()
